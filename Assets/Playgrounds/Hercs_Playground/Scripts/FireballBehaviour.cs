@@ -11,6 +11,8 @@ public class FireballBehaviour : MonoBehaviour {
     public static float maxDamage = 5; //we setting damages in terms of floats or ints?
     public static float maxMag = 27; //empirical value, based on the fireball's expansion rate and lifetime
 
+    public static int manaDepletion = 5;
+
     //Damage may require the observer pattern. The fireball only "broadcasts" the message, while the enemies ("listeners") take damage
 
     private Color emission;

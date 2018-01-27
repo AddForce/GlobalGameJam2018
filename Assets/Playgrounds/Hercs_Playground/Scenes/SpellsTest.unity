@@ -10570,6 +10570,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1072634934}
   - component: {fileID: 1072634935}
+  - component: {fileID: 1072634936}
   m_Layer: 0
   m_Name: SpellSpawner
   m_TagString: Untagged
@@ -10611,6 +10612,18 @@ MonoBehaviour:
   spells:
   - {fileID: 179991}
   - {fileID: 1285701225}
+--- !u!114 &1072634936
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1072634933}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cb16b4d00b934584183804567aed2a02, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rechargeInterval: 1
 --- !u!1 &1079842582
 GameObject:
   m_ObjectHideFlags: 0
@@ -17344,7 +17357,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1285701226
 Transform:
   m_ObjectHideFlags: 0
@@ -17915,7 +17928,7 @@ ParticleSystem:
   moveWithTransform: 0
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 1
-  randomSeed: 1164643007
+  randomSeed: 802007235
   InitialModule:
     serializedVersion: 3
     enabled: 1

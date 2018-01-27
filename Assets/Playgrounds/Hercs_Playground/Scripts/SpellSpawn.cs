@@ -8,11 +8,12 @@ public class SpellSpawn : MonoBehaviour {
     [SerializeField] private float force;
     [SerializeField] private GameObject fireBall; //stores prefab
 
+    private ManaMan manaManager;
 
     //will require refining for multiple spells
     [SerializeField] private float cooldown;
     private bool canCast;
-
+    
     //private GameObject firecast;
     //for further expansion:
     
@@ -23,6 +24,7 @@ public class SpellSpawn : MonoBehaviour {
     private Transform spawnPoint;
 
     void Awake() {
+        manaManager = this.gameObject.GetComponent<ManaMan>();
         //spells = GameObject.FindGameObjectsWithTag("Spell");
         cooldown = 1.5f;
         canCast = true;
@@ -51,7 +53,9 @@ public class SpellSpawn : MonoBehaviour {
         if (curSpell == 0) {
 
 
-            if (Input.GetKeyDown(KeyCode.Space)) spells[curSpell].gameObject.GetComponent<Animator>().SetTrigger("WasCalled");
+            if (Input.GetKeyDown(KeyCode.Space)) {
+                spells[curSpell].gameObject.GetComponent<Animator>().SetTrigger("WasCalled");
+            }
 
             if (Input.GetKey(KeyCode.Space)) {
                 
@@ -69,6 +73,8 @@ public class SpellSpawn : MonoBehaviour {
         } else if (curSpell == 1 && canCast) {
 
             if (Input.GetKeyDown(KeyCode.Space)) {
+
+
                 
                 canCast = false;
                 GameObject fireSpawn = Instantiate(fireBall, spawnPoint.position, spawnPoint.rotation) as GameObject;
@@ -77,6 +83,8 @@ public class SpellSpawn : MonoBehaviour {
                 spells[curSpell].gameObject.GetComponent<Animator>().SetTrigger("WasCalled");
                 StartCoroutine(Cooldown());
             }
+
+
         }
     }
 
