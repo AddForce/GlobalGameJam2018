@@ -19,6 +19,8 @@ public class GameManagerTester : MonoBehaviour {
 		for (int i = 0; i < kills; ++i) {
 			GameManager.instance.EnemyKill ();
 		}
+
+		SoundManager.instance.playBGM ("title");
 	}
 	
 	// Update is called once per frame
