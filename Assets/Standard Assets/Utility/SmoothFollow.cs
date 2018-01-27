@@ -6,7 +6,6 @@ namespace UnityStandardAssets.Utility
 	{
 
 		// The target we are following
-		[SerializeField]
 		private Transform target;
 		// The distance in the x-z plane to the target
 		[SerializeField]
@@ -21,7 +20,10 @@ namespace UnityStandardAssets.Utility
 		private float heightDamping;
 
 		// Use this for initialization
-		void Start() { }
+		void Start() {
+            target = GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>();
+
+        }
 
 		// Update is called once per frame
 		void LateUpdate()
