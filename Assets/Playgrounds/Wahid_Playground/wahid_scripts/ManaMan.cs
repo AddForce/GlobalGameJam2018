@@ -7,13 +7,13 @@ public class ManaMan : MonoBehaviour {
     public int rechargeInterval = 1;
 
 
-    public void castMe(bool canCast, System.Action<bool> cb) {
+    public void castMe(bool isCasting, System.Action<bool> cb) {
         bool isDepleted = false;
-        if (canCast) {
             if (!isDepleted) {
                 cb(isDepleted);
-                StartCoroutine(deplete());
-            }
+                StartCoroutine(deplete(isCasting));            
+        } else {
+            print("you stopped it");
         }
     }
 
@@ -44,8 +44,8 @@ public class ManaMan : MonoBehaviour {
         }
     }
 
-    private IEnumerator deplete() {
-        while (internalMana >= 0) {
+    private IEnumerator deplete(bool isCasting) {
+        while (internalMana >= 0 && isCasting) {
             print(internalMana);
             yield return new WaitForSeconds(rechargeInterval);
             internalMana -= 1;
