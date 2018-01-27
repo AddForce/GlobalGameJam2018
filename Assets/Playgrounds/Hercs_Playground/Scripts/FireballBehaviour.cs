@@ -8,6 +8,11 @@ public class FireballBehaviour : MonoBehaviour {
     [SerializeField] float maxSize;
     [SerializeField] float alphaReduce;
 
+    public static float maxDamage = 5; //we setting damages in terms of floats or ints?
+    public static float maxMag = 27; //empirical value, based on the fireball's expansion rate and lifetime
+
+    //Damage may require the observer pattern. The fireball only "broadcasts" the message, while the enemies ("listeners") take damage
+
     private Color emission;
     private GameObject trail;
 
