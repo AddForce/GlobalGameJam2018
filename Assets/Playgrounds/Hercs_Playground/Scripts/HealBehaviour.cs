@@ -7,6 +7,8 @@ public class HealBehaviour : MonoBehaviour {
     public static float healFactor = 5;
     public static float healRate = 0.5f;
 
+    public static int manaDepletion = 5;
+
     /*
      * We may require a different pattern here. Probably the observer.
      * Something along the lines of "this healing spell broadcasts the healing"
