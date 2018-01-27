@@ -2,23 +2,39 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ManaMan : MonoBehaviour {
-    private float internalMana = 100;
-    public float rechargeInterval = 1;
+public class ManaMan : MonoBehaviour
+{
+    private int internalMana = 100;
+    public int rechargeInterval = 1;
 
-    public void castSpell(int cost) {
-        if (cost > internalMana) {
-            StartCoroutine(reCharge(cost, () => {
+
+    public void castMe(bool canCast, System.Action cb)
+    {
+        if (canCast)
+        {
+            cb();
+        }
+    }
+
+    public void castSpell(int cost)
+    {
+        if (cost > internalMana)
+        {
+            StartCoroutine(reCharge(cost, () =>
+            {
                 internalMana -= cost;
             }
         ));
-        } else {
+        }
+        else
+        {
             internalMana -= cost;
             print(internalMana);
         }
     }
 
-    private IEnumerator reCharge(int cost, System.Action cb) {
+    private IEnumerator reCharge(int cost, System.Action cb)
+    {
         Debug.Log("Waiting for mana to refill...");
         StartCoroutine(refill());
         yield return new WaitUntil(() => internalMana > cost);
@@ -26,8 +42,10 @@ public class ManaMan : MonoBehaviour {
         cb();
     }
 
-    private IEnumerator refill() {
-        while (internalMana <= 100) {
+    private IEnumerator refill()
+    {
+        while (internalMana <= 100)
+        {
             yield return new WaitForSeconds(rechargeInterval);
             internalMana += 1;
         }
@@ -36,13 +54,15 @@ public class ManaMan : MonoBehaviour {
 
 
     // Use this for initialization
-    void Start() {
+    void Start()
+    {
 
 
     }
 
     // Update is called once per frame
-    void Update() {
+    void Update()
+    {
 
     }
 }
