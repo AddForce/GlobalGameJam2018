@@ -8,11 +8,14 @@ public class SpellSpawn : MonoBehaviour {
     [SerializeField] private float force;
     [SerializeField] private GameObject fireBall; //stores prefab
 
+    private ManaMan manaManager;
 
     //will require refining for multiple spells
     [SerializeField] private float cooldown;
     private bool canCast;
 
+    private bool isCasting;
+    
     //private GameObject firecast;
     //for further expansion:
     
@@ -23,10 +26,12 @@ public class SpellSpawn : MonoBehaviour {
     private Transform spawnPoint;
 
     void Awake() {
+        manaManager = this.gameObject.GetComponent<ManaMan>();
         //spells = GameObject.FindGameObjectsWithTag("Spell");
         cooldown = 1.5f;
         canCast = true;
         spawnPoint = GameObject.Find("SpawnPoint").transform;
+        isCasting = false;
        
         //spells = GameObject.FindGameObjectsWithTag("Spell");
 
@@ -50,38 +55,61 @@ public class SpellSpawn : MonoBehaviour {
 
         if (curSpell == 0) {
 
-
-            if (Input.GetKeyDown(KeyCode.Space)) spells[curSpell].gameObject.GetComponent<Animator>().SetTrigger("WasCalled");
-
-            if (Input.GetKey(KeyCode.Space)) {
-                
-                canCast = false; //added for safety
-                //spells[curSpell].gameObject.GetComponent<Animator>().SetTrigger("WasCalled");
-                spells[curSpell].gameObject.GetComponent<Animator>().SetBool("StillWorking", true);//could be unnecessary, depending on how it's coded
-            }
-
-            if (Input.GetKeyUp(KeyCode.Space)) {
-
-                canCast = true;
-                spells[curSpell].gameObject.GetComponent<Animator>().SetBool("StillWorking", false);
-            }
+            manaManager.castMe(isCasting, (isDepleted) => {
+                CheckHeal();
+                if (isDepleted)
+                {
+                    print("we have depleted our mana");
+                }
+                //Debug.Log(isDepleted.ToString());
+            });
 
         } else if (curSpell == 1 && canCast) {
 
             if (Input.GetKeyDown(KeyCode.Space)) {
+
+                manaManager.castMe(canCast, (isDepleted)=> {
+                    ShootFireball();
+                    Debug.Log(isDepleted.ToString());
+                });
                 
-                canCast = false;
-                GameObject fireSpawn = Instantiate(fireBall, spawnPoint.position, spawnPoint.rotation) as GameObject;
-                fireSpawn.GetComponent<Rigidbody>().AddForce(this.gameObject.transform.forward * force);
-                
-                spells[curSpell].gameObject.GetComponent<Animator>().SetTrigger("WasCalled");
-                StartCoroutine(Cooldown());
             }
         }
+    }
+
+    void CheckHeal() {
+
+        if (Input.GetKeyDown(KeyCode.Space)) {
+            isCasting = true;
+            spells[curSpell].gameObject.GetComponent<Animator>().SetTrigger("WasCalled");
+        }
+
+        if (Input.GetKey(KeyCode.Space)) {
+
+            canCast = false; //added for safety
+                             //spells[curSpell].gameObject.GetComponent<Animator>().SetTrigger("WasCalled");
+            spells[curSpell].gameObject.GetComponent<Animator>().SetBool("StillWorking", true);//could be unnecessary, depending on how it's coded
+        }
+
+        if (Input.GetKeyUp(KeyCode.Space)) {
+            isCasting = false;
+            canCast = true;
+            spells[curSpell].gameObject.GetComponent<Animator>().SetBool("StillWorking", false);
+        }
+    }
+
+    void ShootFireball() {
+
+        canCast = false;
+        GameObject fireSpawn = Instantiate(fireBall, spawnPoint.position, spawnPoint.rotation) as GameObject;
+        fireSpawn.GetComponent<Rigidbody>().AddForce(this.gameObject.transform.forward * force);
+        spells[curSpell].gameObject.GetComponent<Animator>().SetTrigger("WasCalled");
+        StartCoroutine(Cooldown());
     }
 
     IEnumerator Cooldown() {
         yield return new WaitForSeconds(cooldown);
         canCast = true;
     }
+
 }

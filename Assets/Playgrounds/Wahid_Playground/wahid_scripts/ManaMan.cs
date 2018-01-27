@@ -3,8 +3,17 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class ManaMan : MonoBehaviour {
-    private float internalMana = 100;
-    public float rechargeInterval = 1;
+    private int internalMana = 100;
+    public int rechargeInterval = 1;
+
+
+    public void castMe(bool isCasting, System.Action<bool> cb) {
+        bool isDepleted = false;
+            cb(isDepleted);
+        if (isCasting) StartCoroutine(deplete(isCasting));
+        else StopCoroutine(deplete(isCasting));
+    
+    }
 
     public void castSpell(int cost) {
         if (cost > internalMana) {
@@ -30,6 +39,14 @@ public class ManaMan : MonoBehaviour {
         while (internalMana <= 100) {
             yield return new WaitForSeconds(rechargeInterval);
             internalMana += 1;
+        }
+    }
+
+    private IEnumerator deplete(bool isCasting) {
+        if (internalMana >= 0 && isCasting) {
+            print(internalMana);
+            yield return new WaitForSeconds(rechargeInterval);
+            internalMana -= 1;
         }
     }
 
