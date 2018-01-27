@@ -9,12 +9,10 @@ public class ManaMan : MonoBehaviour {
 
     public void castMe(bool isCasting, System.Action<bool> cb) {
         bool isDepleted = false;
-            if (!isDepleted) {
-                cb(isDepleted);
-                StartCoroutine(deplete(isCasting));            
-        } else {
-            print("you stopped it");
-        }
+            cb(isDepleted);
+        if (isCasting) StartCoroutine(deplete(isCasting));
+        else StopCoroutine(deplete(isCasting));
+    
     }
 
     public void castSpell(int cost) {
@@ -45,7 +43,7 @@ public class ManaMan : MonoBehaviour {
     }
 
     private IEnumerator deplete(bool isCasting) {
-        while (internalMana >= 0 && isCasting) {
+        if (internalMana >= 0 && isCasting) {
             print(internalMana);
             yield return new WaitForSeconds(rechargeInterval);
             internalMana -= 1;

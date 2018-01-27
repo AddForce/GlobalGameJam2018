@@ -13,6 +13,8 @@ public class SpellSpawn : MonoBehaviour {
     //will require refining for multiple spells
     [SerializeField] private float cooldown;
     private bool canCast;
+
+    private bool isCasting;
     
     //private GameObject firecast;
     //for further expansion:
@@ -29,6 +31,7 @@ public class SpellSpawn : MonoBehaviour {
         cooldown = 1.5f;
         canCast = true;
         spawnPoint = GameObject.Find("SpawnPoint").transform;
+        isCasting = false;
        
         //spells = GameObject.FindGameObjectsWithTag("Spell");
 
@@ -52,13 +55,24 @@ public class SpellSpawn : MonoBehaviour {
 
         if (curSpell == 0) {
 
-            manaManager.castMe(true, () => { CheckHeal(); });
+            manaManager.castMe(isCasting, (isDepleted) => {
+                CheckHeal();
+                if (isDepleted)
+                {
+                    print("we have depleted our mana");
+                }
+                //Debug.Log(isDepleted.ToString());
+            });
 
         } else if (curSpell == 1 && canCast) {
 
             if (Input.GetKeyDown(KeyCode.Space)) {
 
-                manaManager.castMe(true, ()=> { ShootFireball(); });
+                manaManager.castMe(canCast, (isDepleted)=> {
+                    ShootFireball();
+                    Debug.Log(isDepleted.ToString());
+                });
+                
             }
         }
     }
@@ -66,6 +80,7 @@ public class SpellSpawn : MonoBehaviour {
     void CheckHeal() {
 
         if (Input.GetKeyDown(KeyCode.Space)) {
+            isCasting = true;
             spells[curSpell].gameObject.GetComponent<Animator>().SetTrigger("WasCalled");
         }
 
@@ -77,7 +92,7 @@ public class SpellSpawn : MonoBehaviour {
         }
 
         if (Input.GetKeyUp(KeyCode.Space)) {
-
+            isCasting = false;
             canCast = true;
             spells[curSpell].gameObject.GetComponent<Animator>().SetBool("StillWorking", false);
         }
