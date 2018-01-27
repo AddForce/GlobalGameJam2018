@@ -30,7 +30,7 @@ public class GameManager : MonoBehaviour {
 	private int kills;
 	private int heals;
 	private float morality;
-	private int baseHealth;
+	private int remainingBases;
 	private bool gameEnded = false;
 	private float timeLeft;
 
@@ -60,14 +60,18 @@ public class GameManager : MonoBehaviour {
 		heals = 0;
 		morality = 0.5f;
 		timeLeft = timeLimit;
-		baseHealth = 1;
+		remainingBases = 0;
 		gameEnded = false;
 	}
 
-	void ChangeBaseHealth(int h){
-		baseHealth += h;
-		if (baseHealth <= 0) {
-			LoseGame ();
+	public void AddBase(){
+		remainingBases += 1;
+	}
+
+	public void RemoveBase(){
+		remainingBases -= 1;
+		if (remainingBases <= 0) {
+			gameEnded = true;
 		}
 	}
 
