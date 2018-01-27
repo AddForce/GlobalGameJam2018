@@ -8,8 +8,13 @@ public class FireballBehaviour : MonoBehaviour {
     [SerializeField] float maxSize;
     [SerializeField] float alphaReduce;
 
+    private Color emission;
+    private GameObject trail;
+
     void Awake() {
         this.gameObject.transform.localScale = new Vector3(0.1f, 0.1f, 0.1f);
+        emission = this.gameObject.GetComponent<Renderer>().material.GetColor("_EmissionColor");
+        trail = GameObject.Find("FireTrail");
     }
 
     void OnCollisionEnter(Collision other) {
@@ -22,14 +27,25 @@ public class FireballBehaviour : MonoBehaviour {
 
         //stops fireball
         this.gameObject.GetComponent<Rigidbody>().velocity = Vector3.zero;
+
+        //Deactivates trail
+        trail.SetActive(false);
+
         //makes it grow
         InvokeRepeating("Growth", 0.0f, 0.01f);
     }
 
     void Growth() {
+        //makes it grow
         this.gameObject.transform.localScale += Vector3.one * growthRate;
+        
+        //fades fireball
         this.gameObject.GetComponent<Renderer>().material.color -= new Color(0.0f, 0.0f, 0.0f, alphaReduce);
+        emission -= new Color(alphaReduce, alphaReduce/2.0f, 0.0f, alphaReduce);
+        this.gameObject.GetComponent<Renderer>().material.SetColor("_EmissionColor", emission);
+
+        //destroys fireball if transparency is below zero
         if (this.gameObject.GetComponent<Renderer>().material.color.a <= 0) Destroy(this.gameObject);
-        //Debug.Log(Vector3.one.magnitude.ToString());
+        //Debug.Log(this.gameObject.GetComponent<Renderer>().material.GetColor("_EmissionColor").ToString());
     }
 }
