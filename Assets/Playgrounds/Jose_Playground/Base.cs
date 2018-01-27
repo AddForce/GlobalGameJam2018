@@ -5,6 +5,7 @@ using UnityEngine;
 public class Base : MonoBehaviour {
 
 	public int maxHealth = 100;
+	public ParticleSystem deathParticles;
 
 	int health;
 
@@ -14,15 +15,16 @@ public class Base : MonoBehaviour {
 		GameManager.instance.AddBase ();
 	}
 
-	void Damage(int d){
+	public void Damage(int d){
 		health -= d;
-		if (d <= 0) {
+		if (health <= 0) {
 			Die ();
 		}
 	}
 
 	void Die(){
 		GameManager.instance.RemoveBase ();
+		deathParticles.Play ();
 	}
 	
 	// Update is called once per frame
