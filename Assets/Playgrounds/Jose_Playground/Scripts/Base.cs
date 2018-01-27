@@ -6,6 +6,7 @@ public class Base : MonoBehaviour {
 
 	public int maxHealth = 100;
 	public ParticleSystem deathParticles;
+	public Lifebar lifebar;
 
 	int health;
 
@@ -17,6 +18,7 @@ public class Base : MonoBehaviour {
 
 	public void Damage(int d){
 		health -= d;
+		lifebar.SetPerc ((float)health / (float)maxHealth);
 		if (health <= 0) {
 			Die ();
 		}

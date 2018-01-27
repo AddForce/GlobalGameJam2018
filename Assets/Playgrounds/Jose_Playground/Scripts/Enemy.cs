@@ -9,6 +9,8 @@ public class Enemy : MonoBehaviour {
 	public float startingInfectionLevel = 0.5f;
 	public float attackSpeed = 1f;
 	public int attackPower = 10;
+	public Lifebar lifebar;
+	public Lifebar infectionBar;
 
 	int health;
 	float infectionLevel;
@@ -57,6 +59,30 @@ public class Enemy : MonoBehaviour {
 			targetBase.Damage (attackPower);
 			StartCoroutine (refreshAttackRate ());
 		}
+	}
+
+	public void DealDamage(int amount){
+		health -= amount;
+		lifebar.SetPerc ((float)health / (float)maxHealth);
+		if(health <= 0){
+			Die ();
+		}
+	}
+
+	public void Heal(float perc){
+		infectionLevel -= perc;
+		infectionBar.SetPerc (infectionLevel);
+		if (infectionLevel <= 0f) {
+			OnFullyHealed ();
+		}
+	}
+
+	void Die(){
+		Destroy (gameObject);
+	}
+
+	void OnFullyHealed(){
+		Destroy (gameObject);
 	}
 
 	IEnumerator refreshAttackRate(){
