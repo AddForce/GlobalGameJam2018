@@ -90,19 +90,7 @@ public class MovementScript : MonoBehaviour {
     float moveDistance = 10f;
 
 
-    private void spawnLookAt() {
-        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
-        if (Physics.Raycast(ray)) {
-            //   Instantiate(this, transform.position, transform.rotation);
-            spawnPoint.rotation = Quaternion.LookRotation(newPosition + Vector3.up);
-        }
-    }
-        //    if (Physics.Raycast(ray, out hit)) {
-        //  //  if (hit.collider.CompareTag("Ground")) {
-        //        spawnPoint.rotation = Quaternion.LookRotation(newPosition + Vector3.up);
-        //    //}
-        //}
 
     private void clickAndMove() {
         if (Input.GetMouseButton(0)) {
