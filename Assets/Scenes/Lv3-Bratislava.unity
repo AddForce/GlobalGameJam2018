@@ -221,6 +221,10 @@ Prefab:
       propertyPath: m_RootOrder
       value: 18
       objectReference: {fileID: 0}
+    - target: {fileID: 159608, guid: be4b8382eb1b6f644895685271cf67c9, type: 2}
+      propertyPath: m_TagString
+      value: Wall
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: be4b8382eb1b6f644895685271cf67c9, type: 2}
   m_IsPrefabParent: 0
@@ -378,6 +382,10 @@ Prefab:
     - target: {fileID: 174592, guid: 6391d0758f4f45140a50db5df903916a, type: 2}
       propertyPath: m_Name
       value: SM_Prop_Crate_02 (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 174592, guid: 6391d0758f4f45140a50db5df903916a, type: 2}
+      propertyPath: m_TagString
+      value: Wall
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 6391d0758f4f45140a50db5df903916a, type: 2}
@@ -1146,6 +1154,10 @@ Prefab:
     - target: {fileID: 465876, guid: 6391d0758f4f45140a50db5df903916a, type: 2}
       propertyPath: m_RootOrder
       value: 19
+      objectReference: {fileID: 0}
+    - target: {fileID: 174592, guid: 6391d0758f4f45140a50db5df903916a, type: 2}
+      propertyPath: m_TagString
+      value: Wall
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 6391d0758f4f45140a50db5df903916a, type: 2}
@@ -2205,6 +2217,10 @@ Prefab:
       propertyPath: m_Name
       value: SM_Prop_Chest_01 (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 159608, guid: be4b8382eb1b6f644895685271cf67c9, type: 2}
+      propertyPath: m_TagString
+      value: Wall
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: be4b8382eb1b6f644895685271cf67c9, type: 2}
   m_IsPrefabParent: 0
@@ -2420,6 +2436,10 @@ Prefab:
     - target: {fileID: 411728, guid: 4a92ef047c4860a49ba4eacd0e731350, type: 2}
       propertyPath: m_LocalEulerAnglesHint.y
       value: 45
+      objectReference: {fileID: 0}
+    - target: {fileID: 128268, guid: 4a92ef047c4860a49ba4eacd0e731350, type: 2}
+      propertyPath: m_TagString
+      value: Wall
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 4a92ef047c4860a49ba4eacd0e731350, type: 2}
@@ -2824,6 +2844,10 @@ Prefab:
     - target: {fileID: 495144, guid: 8935c7a0edd53e24bbdd0be9ac747b15, type: 2}
       propertyPath: m_LocalEulerAnglesHint.y
       value: 18.734001
+      objectReference: {fileID: 0}
+    - target: {fileID: 145456, guid: 8935c7a0edd53e24bbdd0be9ac747b15, type: 2}
+      propertyPath: m_TagString
+      value: Wall
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 8935c7a0edd53e24bbdd0be9ac747b15, type: 2}
@@ -3340,7 +3364,7 @@ GameObject:
   - component: {fileID: 2026202477}
   m_Layer: 0
   m_Name: Terrain
-  m_TagString: Untagged
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295
