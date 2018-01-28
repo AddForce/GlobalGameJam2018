@@ -37,7 +37,6 @@ public class MovementScript : MonoBehaviour {
     }
 
     void Update() {
-        spawnLookAt();
         if (canMove) {
             clickAndMove();
             //keyboardMove(); NOT TODAY!
