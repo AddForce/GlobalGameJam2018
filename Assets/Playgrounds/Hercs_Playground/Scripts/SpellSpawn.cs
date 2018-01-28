@@ -73,17 +73,18 @@ public class SpellSpawn : MonoBehaviour {
     enum healStage { None, Started, Mid, Ended };
     healStage curHealStage;
 
+
+    private float depletionSpeed = 1;
     void CheckHeal() {
-        if (Input.GetKeyDown(KeyCode.Space) && canCast) {
+        if (Input.GetKeyDown(KeyCode.Space)) {
             curHealStage = healStage.Started;
             isCasting = true;
 
         }
 
-        if (Input.GetKey(KeyCode.Space)) {
+        else if (Input.GetKey(KeyCode.Space)) {
             curHealStage = healStage.Mid;
             canCast = false;
-
         }
 
         if (Input.GetKeyUp(KeyCode.Space)) {
@@ -91,26 +92,27 @@ public class SpellSpawn : MonoBehaviour {
             isCasting = false;
             canCast = true;
         }
-
+        print(curHealStage);
         switch (curHealStage) {
             case healStage.None:
                 break;
             case healStage.Started:
                 manaManager.castMe((isDepleted) => {
+                    print("started heal");
                     healingSpell.gameObject.GetComponent<Animator>().SetTrigger("WasCalled");
                     move.stopMove();
-                });
+                }, depletionSpeed, ManaMan.spellType.Continous);
                 break;
             case healStage.Mid:
                 manaManager.castMe((isDepleted) => {
                     healingSpell.gameObject.GetComponent<Animator>().SetBool("StillWorking", true);//could be unnecessary, depending on how it's coded
-                });
+                }, depletionSpeed, ManaMan.spellType.Continous);
                 break;
             case healStage.Ended:
                 manaManager.castMe((isDepleted) => {
                     healingSpell.gameObject.GetComponent<Animator>().SetBool("StillWorking", false);
                     move.startMove();
-                });
+                }, depletionSpeed, ManaMan.spellType.None);
                 break;
             default:
                 break;
