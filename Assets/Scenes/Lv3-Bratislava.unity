@@ -1883,6 +1883,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bgmName: stage
+  isBGM: 1
+  stopPrevious: 0
 --- !u!1001 &1229330015
 Prefab:
   m_ObjectHideFlags: 0

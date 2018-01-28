@@ -427,7 +427,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ceb41ed355260c946bb3b987201351b4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bgmName: title
+  bgmName: BadWin
+  isBGM: 0
+  stopPrevious: 1
 --- !u!1001 &1111400283
 Prefab:
   m_ObjectHideFlags: 0
