@@ -74,7 +74,7 @@ public class SpellSpawn : MonoBehaviour {
     healStage curHealStage;
 
 
-    private float depletionSpeed = 1;
+    private float depletionSpeed = 5;
     void CheckHeal() {
         if (Input.GetKeyDown(KeyCode.Space)) {
             curHealStage = healStage.Started;
@@ -105,7 +105,17 @@ public class SpellSpawn : MonoBehaviour {
                 break;
             case healStage.Mid:
                 manaManager.castMe((isDepleted) => {
-                    healingSpell.gameObject.GetComponent<Animator>().SetBool("StillWorking", true);//could be unnecessary, depending on how it's coded
+                    if (!isDepleted) {                        
+                        healingSpell.gameObject.GetComponent<Animator>().SetBool("StillWorking", true);//could be unnecessary, depending on how it's coded
+                    } else {
+                        healingSpell.gameObject.GetComponent<Animator>().SetBool("StillWorking", false);
+                        print("uh oh we ran out");
+                        //so we are depleted now 
+                        if (!move.getMove()) {
+                            move.startMove();
+                        }
+
+                    }
                 }, depletionSpeed, ManaMan.spellType.Continous);
                 break;
             case healStage.Ended:

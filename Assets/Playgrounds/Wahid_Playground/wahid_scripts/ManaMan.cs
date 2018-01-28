@@ -23,9 +23,12 @@ public class ManaMan : MonoBehaviour {
     public void castMe(System.Action<bool> cb, float m_dSpeed, spellType m_type) {
         castType = m_type;
         depletionSpeed = m_dSpeed;
-        if (!isDepleted) {
-            cb(isDepleted);
-         }
+        cb(isDepleted);
+        if (castType == spellType.Continous) {
+            deplete(depletionSpeed);
+        } else if (castType == spellType.OneShot) {
+
+        }
     }
 
     void Awake() {
@@ -33,41 +36,15 @@ public class ManaMan : MonoBehaviour {
         changePerSecond = (0 - maxMana) / timeToChange;
     }
 
-    void FixedUpdate() {
-        if (castType == spellType.Continous) {
-            deplete(depletionSpeed);
-            print(curMana);
-        }
-
-        if (castType == spellType.Continous) {
-          //  deplete(depletionSpeed);
-        }
-    }
-
     private void deplete(float depletionSpeed) {//for the cast mana method
-        if (curMana >= 0) {
+        if (!Mathf.Approximately(curMana, 0)) {
             curMana = Mathf.Clamp(curMana + changePerSecond * Time.deltaTime * depletionSpeed, 0, maxMana);
             manaBar.fillAmount = curMana / maxMana;
         } else {
             isDepleted = true;
+            print("depleted");
         }
-
     }
-
-    //public void castSpell(int cost) {
-    //    if (cost > curMana) {
-    //        StartCoroutine(reCharge(cost, () => {
-    //            curMana -= cost;
-    //        }
-    //    ));
-    //    } else {
-    //        float fill = curMana / maxMana;
-    //        print("fill " + fill);
-    //        manaBar.fillAmount = curMana / maxMana;
-    //        print(curMana);
-    //    }
-    //}
-
     //private IEnumerator reCharge(int cost, System.Action cb) {
     //    Debug.Log("Waiting for mana to refill...");
     //    StartCoroutine(refill());
