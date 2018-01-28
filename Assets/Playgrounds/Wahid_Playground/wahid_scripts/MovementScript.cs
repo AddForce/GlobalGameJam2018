@@ -21,7 +21,10 @@ public class MovementScript : MonoBehaviour {
 
     private bool canMove = true;
 
+    private Transform spawnPoint;
+
     void Awake() {
+        foreach (Transform child in this.transform) if (child.CompareTag("SpawnPoint")) { spawnPoint = child; }
         layerMask = ~(1 << LayerMask.NameToLayer("layerX"));
         spriteRend = GetComponentInChildren<SpriteRenderer>();
         newPosition = transform.position;
@@ -34,6 +37,7 @@ public class MovementScript : MonoBehaviour {
     }
 
     void Update() {
+        spawnLookAt();
         if (canMove) {
             clickAndMove();
             //keyboardMove(); NOT TODAY!
@@ -85,6 +89,21 @@ public class MovementScript : MonoBehaviour {
     Vector3 startPos;
     float moveDistance = 10f;
 
+
+    private void spawnLookAt() {
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+
+        if (Physics.Raycast(ray)) {
+            //   Instantiate(this, transform.position, transform.rotation);
+            spawnPoint.rotation = Quaternion.LookRotation(newPosition + Vector3.up);
+        }
+    }
+        //    if (Physics.Raycast(ray, out hit)) {
+        //  //  if (hit.collider.CompareTag("Ground")) {
+        //        spawnPoint.rotation = Quaternion.LookRotation(newPosition + Vector3.up);
+        //    //}
+        //}
+
     private void clickAndMove() {
         if (Input.GetMouseButton(0)) {
 
@@ -94,10 +113,15 @@ public class MovementScript : MonoBehaviour {
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
             if (Physics.Raycast(ray, out hit)) {
-                newPosition = hit.point;
-                newPosition.y = transform.position.y;
+                if (hit.collider.CompareTag("Ground")) {
+                    newPosition = hit.point;
+                    newPosition.y = transform.position.y;
+
+                }
             }
-            isMoving = true;
+            if (canMove) {
+                isMoving = true;
+            }
         }
         Vector3 rayOrigin = transform.position;
         RaycastHit normalhit;
@@ -118,6 +142,10 @@ public class MovementScript : MonoBehaviour {
             }
         } else {
             newPosition = transform.position;
+        }
+
+        if (Input.GetMouseButtonUp(0)) {
+            isMoving = false;
         }
     }
 

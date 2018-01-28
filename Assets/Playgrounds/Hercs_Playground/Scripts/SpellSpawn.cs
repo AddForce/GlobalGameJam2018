@@ -58,16 +58,16 @@ public class SpellSpawn : MonoBehaviour {
 
     private float depletionSpeed = 3;
     void CheckHeal() {
-        if (Input.GetKeyDown(KeyCode.Space)) {
+        if (Input.GetMouseButtonDown(1)) {
             curHealStage = healStage.Started;
             isCasting = true;
 
-        } else if (Input.GetKey(KeyCode.Space)) {
+        } else if (Input.GetMouseButton(1)) {
             curHealStage = healStage.Mid;
             canCast = false;
         }
 
-        if (Input.GetKeyUp(KeyCode.Space)) {
+        if (Input.GetMouseButtonUp(1)) {
             curHealStage = healStage.Ended;
             isCasting = false;
             canCast = true;
@@ -110,19 +110,43 @@ public class SpellSpawn : MonoBehaviour {
     }
 
     private float manaUsed = 10;
+
     void ShootFireball() {
-        if (canCast && Input.GetKeyDown(KeyCode.Space)) {
+        if (canCast && (Input.GetMouseButtonDown(1))) {
             canCast = false;
             manaManager.castMe((isDepleted) => {
                 if (!isDepleted) {
                     GameObject fireSpawn = Instantiate(fireBall, spawnPoint.position, spawnPoint.rotation) as GameObject;
-                    fireSpawn.GetComponent<Rigidbody>().AddForce(spawnPoint.forward * force);
+                    fireSpawn.GetComponent<Rigidbody>().AddForce(spawnLookAt() * force);
                     fireSpell.gameObject.GetComponent<Animator>().SetTrigger("WasCalled");
                     StartCoroutine(Cooldown());
                 }
             }, manaUsed, ManaMan.spellType.OneShot);
         }
     }
+
+    private Vector3 spawnLookAt() {
+        Vector3 result = Vector3.zero;
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        RaycastHit hit;
+
+        if (Physics.Raycast(ray, out hit)) {
+            Vector3 newPosition;
+            newPosition = hit.point;
+            newPosition.y = transform.position.y;
+            result = (newPosition - transform.position);
+        }
+
+        return result.normalized;
+    }
+    //    if (Physics.Raycast(ray, out hit)) {
+    //  //  if (hit.collider.CompareTag("Ground")) {
+    //        spawnPoint.rotation = Quaternion.LookRotation(newPosition + Vector3.up);
+    //    //}
+    //}
+
+
+
 
     IEnumerator Cooldown() {
         yield return new WaitForSeconds(cooldown);
