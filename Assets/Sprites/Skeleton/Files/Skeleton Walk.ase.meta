@@ -1,8 +1,23 @@
 fileFormatVersion: 2
+<<<<<<< HEAD
 guid: 5dd818b53c0241d45bc6cc3e89a58bea
 timeCreated: 1517113440
 licenseType: Free
 DefaultImporter:
+=======
+<<<<<<< HEAD
+guid: 22f78137a6594244d9671808a3f19646
+timeCreated: 1517112320
+licenseType: Free
+DefaultImporter:
+  externalObjects: {}
+=======
+guid: 473bc10841aa8a449b36448f0cc05933
+timeCreated: 1517113050
+licenseType: Free
+DefaultImporter:
+>>>>>>> d1d68d8d28e35401531cba0b94864a0b71294271
+>>>>>>> 18283929bf7337deed8db557207d817ec5a800f3
   userData: 
   assetBundleName: 
   assetBundleVariant: 

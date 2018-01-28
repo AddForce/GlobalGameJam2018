@@ -14,3 +14,18 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Instructions.unity
     guid: 274615b7b43c95146be1a4b5ac7aad1a
+  - enabled: 1
+    path: Assets/Scenes/Lv1-Prague.unity
+    guid: 8632b0cdde38b6343aa112d2e21f43e7
+  - enabled: 1
+    path: Assets/Scenes/Lv2-Vienna.unity
+    guid: 4869cdaa8b5d071419410913979bd3ae
+  - enabled: 1
+    path: Assets/Scenes/Lv3-Bratislava.unity
+    guid: d07fde334a9c4df438c033e7f584cdcd
+  - enabled: 1
+    path: Assets/Scenes/Lv4-Budapest.unity
+    guid: 87ba310e5fc1f22428c91d2b4ef15b6e
+  - enabled: 1
+    path: Assets/Scenes/GameOver.unity
+    guid: ca2e8a994f255c14895d6375784cff18
