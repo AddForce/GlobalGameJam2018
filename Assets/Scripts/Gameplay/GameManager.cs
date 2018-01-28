@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour {
 
@@ -13,7 +14,6 @@ public class GameManager : MonoBehaviour {
 				if (_instance == null) {
 					GameObject obj = new GameObject ();
 					_instance = obj.AddComponent<GameManager> ();
-					DontDestroyOnLoad (_instance);
 				}
 			} else {
 				GameManager ob = FindObjectOfType<GameManager> ();
@@ -103,11 +103,17 @@ public class GameManager : MonoBehaviour {
 	}
 
 	void WinGame(){
-		Debug.Log ("Time over. You won!");
-		Debug.Log ("Final Morality: " + morality);
+		int sceneIndex = SceneManager.GetActiveScene ().buildIndex;
+
+		if (sceneIndex < 5) {
+			SceneManager.LoadScene (sceneIndex + 1);
+		} else {
+			SceneManager.LoadScene (morality >= 0.5f ? 9 : 8);
+		}
 	}
 
 	void LoseGame(){
+		Invoke(SceneManager.LoadScene (7), 2f);
 		Debug.Log ("Base is Destroyed. Game Over");
 	}
 }

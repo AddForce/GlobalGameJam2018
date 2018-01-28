@@ -81,7 +81,7 @@ public class ManaMan : MonoBehaviour {
     private void regen() {//for the cast mana method 
         if (!manaCurrentlyUsed && (!Mathf.Approximately(curMana, maxMana) || curMana <= maxMana)) {
             curMana = Mathf.Clamp(curMana + changePerSecond * Time.deltaTime * -regenSpeed, 0, maxMana);
-            manaBar.fillAmount = curMana / maxMana;
+            //manaBar.fillAmount = curMana / maxMana;
         } else if ((Mathf.Approximately(curMana, maxMana) || curMana >= maxMana)) {
             fullyCharged = true;
             print("we gucci " + fullyCharged);
