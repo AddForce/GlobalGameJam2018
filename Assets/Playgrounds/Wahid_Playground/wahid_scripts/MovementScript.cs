@@ -2,7 +2,6 @@
 using System.Collections;
 
 [RequireComponent(typeof(Rigidbody))]
-[RequireComponent(typeof (SpellSpawn))]
 public class MovementScript : MonoBehaviour {
     public float smoothTime = 4;
     public float speed = 1.0f;

@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(ManaMan))]
+[RequireComponent(typeof(MovementScript))]
 public class SpellSpawn : MonoBehaviour {
     [SerializeField]
     private float force;
@@ -34,6 +36,7 @@ public class SpellSpawn : MonoBehaviour {
     MovementScript move;
 
     void Awake() {
+        curHealStage = healStage.None;
         move = gameObject.GetComponent<MovementScript>();
         manaManager = gameObject.GetComponent<ManaMan>();
         foreach (Transform child in this.transform) if (child.CompareTag("SpawnPoint")) { spawnPoint = child; }
@@ -67,24 +70,50 @@ public class SpellSpawn : MonoBehaviour {
         //}
     }
 
+    enum healStage { None, Started, Mid, Ended };
+    healStage curHealStage;
+
     void CheckHeal() {
-        if (Input.GetKeyDown(KeyCode.Space)) {
+        if (Input.GetKeyDown(KeyCode.Space) && canCast) {
+            curHealStage = healStage.Started;
             isCasting = true;
-            healingSpell.gameObject.GetComponent<Animator>().SetTrigger("WasCalled");
-            move.stopMove();
+
         }
 
         if (Input.GetKey(KeyCode.Space)) {
-            canCast = false; //added for safety
-                             //spells[curSpell].gameObject.GetComponent<Animator>().SetTrigger("WasCalled");
-            healingSpell.gameObject.GetComponent<Animator>().SetBool("StillWorking", true);//could be unnecessary, depending on how it's coded
+            curHealStage = healStage.Mid;
+            canCast = false;
+
         }
 
         if (Input.GetKeyUp(KeyCode.Space)) {
+            curHealStage = healStage.Ended;
             isCasting = false;
             canCast = true;
-            healingSpell.gameObject.GetComponent<Animator>().SetBool("StillWorking", false);
-            move.startMove();
+        }
+
+        switch (curHealStage) {
+            case healStage.None:
+                break;
+            case healStage.Started:
+                manaManager.castMe((isDepleted) => {
+                    healingSpell.gameObject.GetComponent<Animator>().SetTrigger("WasCalled");
+                    move.stopMove();
+                });
+                break;
+            case healStage.Mid:
+                manaManager.castMe((isDepleted) => {
+                    healingSpell.gameObject.GetComponent<Animator>().SetBool("StillWorking", true);//could be unnecessary, depending on how it's coded
+                });
+                break;
+            case healStage.Ended:
+                manaManager.castMe((isDepleted) => {
+                    healingSpell.gameObject.GetComponent<Animator>().SetBool("StillWorking", false);
+                    move.startMove();
+                });
+                break;
+            default:
+                break;
         }
     }
 
