@@ -767,6 +767,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   manaBar: {fileID: 0}
   timeToChange: 15
+  regenSpeed: 1
 --- !u!114 &114664810178733488
 MonoBehaviour:
   m_ObjectHideFlags: 1
