@@ -12,6 +12,8 @@ public class Enemy : MonoBehaviour {
 	public Lifebar lifebar;
 	public Lifebar infectionBar;
 
+	public AudioClip healedSound;
+
 	int health;
 	float infectionLevel;
 	NavMeshAgent agent;
@@ -119,6 +121,7 @@ public class Enemy : MonoBehaviour {
 	}
 
 	void OnFullyHealed(){
+		SoundManager.instance.PlaySFX (healedSound);
 		GameObject[] exits = GameObject.FindGameObjectsWithTag ("ExitPoint");
 		GameObject exit = exits [0];
 

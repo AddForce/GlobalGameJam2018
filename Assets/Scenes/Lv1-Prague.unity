@@ -227,7 +227,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 48773ad4227849c4db05124e4eabdc43, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  timeLimit: 60
+  timeLimit: 2
 --- !u!4 &105932766
 Transform:
   m_ObjectHideFlags: 0
@@ -253,6 +253,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bgmName: stage
+  isBGM: 1
+  stopPrevious: 0
 --- !u!1001 &168659883
 Prefab:
   m_ObjectHideFlags: 0

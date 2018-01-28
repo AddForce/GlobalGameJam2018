@@ -85,6 +85,10 @@ public class SoundManager : MonoBehaviour {
         }
     }
 
+	public void PlaySFX(AudioClip cl){
+		source.PlayOneShot (cl);
+	}
+
 	public void AddBGM(string key, AudioClip clip){
 		bgms.Add (key, clip);
 	}

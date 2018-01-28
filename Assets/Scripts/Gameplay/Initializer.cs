@@ -10,17 +10,13 @@ public class Initializer : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-        if (isBGM)
-        {
+        if (isBGM){
             SoundManager.instance.playBGM(bgmName);
-        }
-        else
-        {
+        }else{
+			if (stopPrevious){
+				SoundManager.instance.stopBGM();
+			}
             SoundManager.instance.PlaySFX(bgmName);
-            if (stopPrevious)
-            {
-                SoundManager.instance.stopBGM();
-            }
         }
 	}
 	
