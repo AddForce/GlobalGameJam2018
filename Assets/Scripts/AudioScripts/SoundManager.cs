@@ -71,6 +71,20 @@ public class SoundManager : MonoBehaviour {
 		source.Stop ();
 	}
 
+    public void PlaySFX(string key)
+    {
+        AudioClip cl;
+        bgms.TryGetValue(key, out cl);
+        if (cl == null)
+        {
+            Debug.LogWarning("Undefined key '" + key + "' requested to SoundManager");
+        }
+        else
+        {
+            source.PlayOneShot(cl);
+        }
+    }
+
 	public void AddBGM(string key, AudioClip clip){
 		bgms.Add (key, clip);
 	}

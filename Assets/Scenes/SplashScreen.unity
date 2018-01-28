@@ -77,18 +77,15 @@ LightmapSettings:
     m_PVRDirectSampleCount: 32
     m_PVRSampleCount: 500
     m_PVRBounces: 2
-    m_PVRFilterTypeDirect: 0
-    m_PVRFilterTypeIndirect: 0
-    m_PVRFilterTypeAO: 0
+    m_PVRFiltering: 0
     m_PVRFilteringMode: 1
     m_PVRCulling: 1
     m_PVRFilteringGaussRadiusDirect: 1
     m_PVRFilteringGaussRadiusIndirect: 5
     m_PVRFilteringGaussRadiusAO: 2
-    m_PVRFilteringAtrousPositionSigmaDirect: 0.5
-    m_PVRFilteringAtrousPositionSigmaIndirect: 2
-    m_PVRFilteringAtrousPositionSigmaAO: 1
-    m_ShowResolutionOverlay: 1
+    m_PVRFilteringAtrousColorSigma: 1
+    m_PVRFilteringAtrousNormalSigma: 1
+    m_PVRFilteringAtrousPositionSigma: 1
   m_LightingDataAsset: {fileID: 0}
   m_UseShadowmask: 1
 --- !u!196 &4
@@ -110,8 +107,6 @@ NavMeshSettings:
     manualTileSize: 0
     tileSize: 256
     accuratePlacement: 0
-    debug:
-      m_Flags: 0
   m_NavMeshData: {fileID: 0}
 --- !u!1 &381303847
 GameObject:
@@ -184,11 +179,11 @@ Camera:
   m_TargetEye: 3
   m_HDR: 1
   m_AllowMSAA: 1
-  m_AllowDynamicResolution: 0
   m_ForceIntoRT: 0
   m_OcclusionCulling: 1
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
+  m_StereoMirrorMode: 0
 --- !u!4 &381303852
 Transform:
   m_ObjectHideFlags: 0
@@ -297,6 +292,10 @@ MonoBehaviour:
     clip: {fileID: 8300000, guid: cdaf14251575a6248a4c9eeb5d207d92, type: 3}
   - key: stage
     clip: {fileID: 8300000, guid: 854678424c226f246a3b9d0fa6ebf8f5, type: 3}
+  - key: GoodWin
+    clip: {fileID: 8300000, guid: 6246c23539823794cb62dbcf02271296, type: 3}
+  - key: BadWin
+    clip: {fileID: 8300000, guid: 7d8ce9a69cb5a3d45a02b787c3c41029, type: 3}
 --- !u!4 &680375089
 Transform:
   m_ObjectHideFlags: 0

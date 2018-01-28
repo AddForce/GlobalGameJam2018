@@ -8,6 +8,10 @@ public class FireballBehaviour : MonoBehaviour {
     [SerializeField] float maxSize;
     [SerializeField] float alphaReduce;
     [SerializeField] float lifetime;
+    [SerializeField] AudioClip audFlame;
+    [SerializeField] AudioClip audExplode;
+
+    private AudioSource audSrc;
 
     public static float maxDamage = 5; //we setting damages in terms of floats or ints?
     public static float maxMag = 27; //empirical value, based on the fireball's expansion rate and lifetime
@@ -20,11 +24,16 @@ public class FireballBehaviour : MonoBehaviour {
     private GameObject trail;
 
     void Awake() {
+        audSrc = this.gameObject.GetComponent<AudioSource>();
         this.gameObject.transform.localScale = new Vector3(0.1f, 0.1f, 0.1f);
         emission = this.gameObject.GetComponent<Renderer>().material.GetColor("_EmissionColor");
         trail = GameObject.Find("FireTrail");
         Invoke("DelayedDeath", 0.0f);
         Physics.IgnoreCollision(this.gameObject.GetComponent<Collider>(), GameObject.FindGameObjectWithTag("Player").GetComponent<Collider>());
+    }
+
+    void Start() {
+        audSrc.PlayOneShot(audFlame);
     }
 
     void OnCollisionEnter(Collision other) {
@@ -35,8 +44,6 @@ public class FireballBehaviour : MonoBehaviour {
         //Careful! Requires tags to be properly set...
         if (other.gameObject.CompareTag("Wall")) Physics.IgnoreCollision(this.gameObject.GetComponent<Collider>(), other.gameObject.GetComponent<Collider>());
         if (other.gameObject.CompareTag("Ground")) Physics.IgnoreCollision(this.gameObject.GetComponent<Collider>(), other.gameObject.GetComponent<Collider>());
-        
-
 
         //stops fireball
         this.gameObject.GetComponent<Rigidbody>().velocity = Vector3.zero;
@@ -45,10 +52,12 @@ public class FireballBehaviour : MonoBehaviour {
         trail.SetActive(false);
 
         //makes it grow
+        audSrc.PlayOneShot(audExplode);
         InvokeRepeating("Growth", 0.0f, 0.01f);
     }
 
     void Growth() {
+        
         //makes it grow
         this.gameObject.transform.localScale += Vector3.one * growthRate;
         
