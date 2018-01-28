@@ -108,7 +108,8 @@ public class GameManager : MonoBehaviour {
 		if (sceneIndex < 5) {
 			SceneManager.LoadScene (sceneIndex + 1);
 		} else {
-			SceneManager.LoadScene (morality >= 0.5f ? 9 : 8);
+			Debug.Log (morality);
+			SceneManager.LoadScene (morality > 0.5f ? 9 : 8);
 		}
 	}
 

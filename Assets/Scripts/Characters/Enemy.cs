@@ -99,11 +99,11 @@ public class Enemy : MonoBehaviour {
 		dead = true;
 		agent.isStopped = true;
 		anim.SetTrigger ("dead");
+		GameManager.instance.EnemyKill ();
 		StartCoroutine (StartDeath ());
 	}
 
 	IEnumerator StartDeath(){
-		Debug.Log ("Started Death");
 		SpriteRenderer rd = anim.gameObject.GetComponent<SpriteRenderer> ();
 
 		float t = 1.0f;
@@ -135,6 +135,7 @@ public class Enemy : MonoBehaviour {
 		SpriteRenderer rd = anim.gameObject.GetComponent<SpriteRenderer> ();
 		rd.color = Color.green;
 		healed = true;
+		GameManager.instance.EnemyHeal ();
 	}
 
 	IEnumerator refreshAttackRate(){
