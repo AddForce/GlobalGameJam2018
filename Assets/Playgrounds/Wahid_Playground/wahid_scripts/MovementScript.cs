@@ -19,7 +19,10 @@ public class MovementScript : MonoBehaviour {
 
     public Vector3 velocity = Vector3.zero;
 
+    int layerMask;
+
     void Awake() {
+        layerMask = ~(1 << LayerMask.NameToLayer("layerX"));
         spriteRend = GetComponentInChildren<SpriteRenderer>();
         newPosition = transform.position;
         mana = GetComponent<ManaMan>();
