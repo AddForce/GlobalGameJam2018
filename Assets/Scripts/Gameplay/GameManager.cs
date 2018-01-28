@@ -113,7 +113,7 @@ public class GameManager : MonoBehaviour {
 	}
 
 	void LoseGame(){
-		Invoke(SceneManager.LoadScene (7), 2f);
+		SceneManager.LoadScene (7);
 		Debug.Log ("Base is Destroyed. Game Over");
 	}
 }
