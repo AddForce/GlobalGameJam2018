@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
-public class SplashAscebt : MonoBehaviour {
+public class SplashAscent : MonoBehaviour {
 
     [SerializeField] private float txtSpeed;
 
