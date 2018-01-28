@@ -13,7 +13,7 @@ public class ManaMan : MonoBehaviour {
     private bool isDepleted = false;
     private bool fullyCharged = true;
 
-
+    [SerializeField]
     private float depletionSpeed;
     private float changePerSecond; // modify the total, every second
 
@@ -81,25 +81,10 @@ public class ManaMan : MonoBehaviour {
     private void regen() {//for the cast mana method 
         if (!manaCurrentlyUsed && (!Mathf.Approximately(curMana, maxMana) || curMana <= maxMana)) {
             curMana = Mathf.Clamp(curMana + changePerSecond * Time.deltaTime * -regenSpeed, 0, maxMana);
-            //manaBar.fillAmount = curMana / maxMana;
+            manaBar.fillAmount = curMana / maxMana;
         } else if ((Mathf.Approximately(curMana, maxMana) || curMana >= maxMana)) {
             fullyCharged = true;
             print("we gucci " + fullyCharged);
         }
     }
-    //private IEnumerator reCharge(int cost, System.Action cb) {
-    //    Debug.Log("Waiting for mana to refill...");
-    //    StartCoroutine(refill());
-    //    yield return new WaitUntil(() => curMana > cost);
-    //    Debug.Log("Now you can use");
-    //    cb();
-    //}
-
-    //private IEnumerator deplete() {
-    //    if (curMana >= 0) {
-    //        yield return new WaitForSeconds(depleteInterval);
-    //        curMana -= 1;
-    //        print(curMana);
-    //    }
-    //}
 }

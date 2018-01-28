@@ -36,7 +36,27 @@ public class MovementScript : MonoBehaviour {
     void Update() {
         if (canMove) {
             clickAndMove();
-            keyboardMove();
+            //keyboardMove(); NOT TODAY!
+        }
+    }
+
+    public float pushbackForce = 3;
+    private bool hasTouchedWall = false;
+    private void OnCollisionEnter(Collision collision) {
+        if (!hasTouchedWall) {
+            hasTouchedWall = true;
+            if (collision.transform.CompareTag("Wall")) {
+                print("touching wal");
+                rb.velocity = Vector3.zero;
+                stopMove();
+                Invoke("startMove", 1);
+            }
+        }
+    }
+
+    private void OnCollisionExit(Collision collision) {
+        if (collision.transform.CompareTag("Wall")) {
+            hasTouchedWall = false;
         }
     }
 
@@ -67,15 +87,23 @@ public class MovementScript : MonoBehaviour {
 
     private void clickAndMove() {
         if (Input.GetMouseButton(0)) {
+
             currentLerpTime = 0;
             startPos = transform.position;
             RaycastHit hit;
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+
             if (Physics.Raycast(ray, out hit)) {
                 newPosition = hit.point;
                 newPosition.y = transform.position.y;
             }
             isMoving = true;
+        }
+        Vector3 rayOrigin = transform.position;
+        RaycastHit normalhit;
+
+        if (Physics.Raycast(rayOrigin, newPosition, out normalhit, 10)) {
+            Debug.DrawRay(rayOrigin, newPosition * 10, Color.red);
         }
 
         if (isMoving) {
@@ -84,17 +112,22 @@ public class MovementScript : MonoBehaviour {
                 currentLerpTime = lerpTime;
             }
             transform.position = Vector3.MoveTowards(transform.position, newPosition, Time.deltaTime * speed);
+            print("moving");
             if (Vector3.Distance(transform.position, newPosition) < 0.1f) {
                 isMoving = false;
             }
+        } else {
+            newPosition = transform.position;
         }
     }
 
     public void stopMove() {
+        isMoving = false;
         canMove = false;
     }
 
     public void startMove() {
+        isMoving = true;
         canMove = true;
     }
 

@@ -72,7 +72,7 @@ public class SpellSpawn : MonoBehaviour {
             isCasting = false;
             canCast = true;
         }
-        print(curHealStage);
+        //print(curHealStage);
         switch (curHealStage) {
             case healStage.None:
                 break;
