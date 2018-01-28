@@ -7,6 +7,7 @@ public class FireballBehaviour : MonoBehaviour {
     [SerializeField] float growthRate;
     [SerializeField] float maxSize;
     [SerializeField] float alphaReduce;
+    [SerializeField] float lifetime;
 
     public static float maxDamage = 5; //we setting damages in terms of floats or ints?
     public static float maxMag = 27; //empirical value, based on the fireball's expansion rate and lifetime
@@ -22,15 +23,20 @@ public class FireballBehaviour : MonoBehaviour {
         this.gameObject.transform.localScale = new Vector3(0.1f, 0.1f, 0.1f);
         emission = this.gameObject.GetComponent<Renderer>().material.GetColor("_EmissionColor");
         trail = GameObject.Find("FireTrail");
+        Invoke("DelayedDeath", 0.0f);
+        Physics.IgnoreCollision(this.gameObject.GetComponent<Collider>(), GameObject.FindGameObjectWithTag("Player").GetComponent<Collider>());
     }
 
     void OnCollisionEnter(Collision other) {
+        CancelInvoke("DelayedDeath");
         //insert a CompareTag if to affect specific characters in specific ways
         //insert a health depletion rate
 
         //Careful! Requires tags to be properly set...
         if (other.gameObject.CompareTag("Wall")) Physics.IgnoreCollision(this.gameObject.GetComponent<Collider>(), other.gameObject.GetComponent<Collider>());
         if (other.gameObject.CompareTag("Ground")) Physics.IgnoreCollision(this.gameObject.GetComponent<Collider>(), other.gameObject.GetComponent<Collider>());
+        
+
 
         //stops fireball
         this.gameObject.GetComponent<Rigidbody>().velocity = Vector3.zero;
@@ -55,4 +61,6 @@ public class FireballBehaviour : MonoBehaviour {
         if (this.gameObject.GetComponent<Renderer>().material.color.a <= 0) Destroy(this.gameObject);
         //Debug.Log(this.gameObject.GetComponent<Renderer>().material.GetColor("_EmissionColor").ToString());
     }
+
+    void DelayedDeath() { Destroy(this.gameObject, lifetime); }
 }

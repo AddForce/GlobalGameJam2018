@@ -1,83 +1,106 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+[RequireComponent(typeof(Rigidbody))]
+
 public class MovementScript : MonoBehaviour {
-
-
-    private ManaMan mana;
-
+    public float smoothTime = 4;
     public float speed = 1.0f;
     public LayerMask impassibleLayer;
     public float checkerRadius = 0.05f;
+    private ManaMan mana;
 
+    private Rigidbody rb;
     private bool facingRight = true;
+    private SpriteRenderer spriteRend;
+    private float startTime;
 
-    public float usableMana;
+    Vector3 newPosition;
 
-    #region TODO
-    private bool moveTop = true;
-    private bool moveBack = true;
-    private bool moveBot = true;
-    private bool moveFront = true;
+    public Vector3 velocity = Vector3.zero;
 
-    Transform top;
-    Transform back;
-    Transform bottom;
-    Transform front;
-
-    #endregion TODO
-
-    private void Awake() {
+    void Awake() {
+        spriteRend = GetComponentInChildren<SpriteRenderer>();
+        newPosition = transform.position;
         mana = GetComponent<ManaMan>();
+        rb = GetComponent<Rigidbody>();
     }
 
-    private void Update() {
-        useSpell();
+    private void Start() {
+        startTime = Time.time;
+    }
+
+    void Update() {
+        clickAndMove();
+        keyboardMove();
+    }
+
+    private void keyboardMove() {
         float hMove = Input.GetAxis("Horizontal");
         float vMove = Input.GetAxis("Vertical");
 
-        //moveTop = !Physics2D.OverlapCircle(top.position, checkerRadius, impassibleLayer);
-        //moveBot = !Physics2D.OverlapCircle(bottom.position, checkerRadius, impassibleLayer);
-        //moveFront = !Physics2D.OverlapCircle(front.position, checkerRadius, impassibleLayer);
-        //moveBack = !Physics2D.OverlapCircle(back.position, checkerRadius, impassibleLayer);
-
-
         if (hMove > 0) {
-            if (moveFront) {
-                transform.Translate(Vector3.right * speed * Time.deltaTime);
-            }
-
-            if (!facingRight) {
-                Flip();
-            }
+            transform.Translate(Vector3.right * speed * Time.deltaTime);
+            Flip(false);
         } else if (hMove < 0) {
-            if (moveBack) {
-                transform.Translate(-Vector3.right * speed * Time.deltaTime);
-            }
-            if (facingRight) {
-                Flip();
-            }
+            transform.Translate(-Vector3.right * speed * Time.deltaTime);
+            Flip(true);
         }
 
-        if (vMove > 0 && moveTop) {
+        if (vMove > 0) {
             transform.Translate(Vector3.forward * speed * Time.deltaTime);
-        } else if (vMove < 0 && moveBot) {
+        } else if (vMove < 0) {
             transform.Translate(-Vector3.forward * speed * Time.deltaTime);
         }
     }
 
-    private void useSpell() {
-        if (Input.GetKeyDown(KeyCode.Space)) {
-            print("using spell");
-            mana.castSpell(10);
+    private bool isMoving = false;
+    float lerpTime = 1f;
+    float currentLerpTime;
+    Vector3 startPos;
+    float moveDistance = 10f;
+
+    private void clickAndMove() {
+        if (Input.GetMouseButton(0)) {
+            currentLerpTime = 0;
+            startPos = transform.position;
+            RaycastHit hit;
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            if (Physics.Raycast(ray, out hit)) {
+                newPosition = hit.point;
+                newPosition.y = transform.position.y;
+            }
+            isMoving = true;
+        }
+
+        if (isMoving) {
+            currentLerpTime += Time.deltaTime;
+            if (currentLerpTime > lerpTime) {
+                currentLerpTime = lerpTime;
+            }
+
+            //float perc = Mathf.Sin((currentLerpTime / lerpTime) * speed);
+            //transform.position = Vector3.Lerp(startPos, newPosition, perc);
+
+            transform.position = Vector3.MoveTowards(transform.position, newPosition, Time.deltaTime * speed);
+
+            if (Vector3.Distance(transform.position, newPosition) < 0.1f) {
+                print("lerp done");
+                isMoving = false;
+            }
         }
     }
 
-    private void Flip() {
-        Vector3 scale = transform.localScale;
-        scale.x *= -1;
-        transform.localScale = scale;
-        Transform swap = front;
-        facingRight = !facingRight;
+    IEnumerator goToPos(Vector3 dest) {
+        while (Vector3.Distance(transform.localPosition, dest) > 0.01f) {
+            transform.localPosition = Vector3.SmoothDamp(transform.localPosition, dest, ref velocity, smoothTime * Time.deltaTime);
+            //PlayerCam.fieldOfView = Mathf.SmoothDamp(PlayerCam.fieldOfView, playerFOV, ref velocityF, smoothTime * Time.deltaTime);
+            yield return null;
+        }
+    }
+
+
+    private void Flip(bool facingRight) {
+        spriteRend.flipX = facingRight;
     }
 }

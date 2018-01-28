@@ -70,7 +70,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1094826810589482}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 3.7298892, y: 0.25, z: 0.76994604}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_Children:
   - {fileID: 4578790547739698}
@@ -195,6 +195,7 @@ MonoBehaviour:
   growthRate: 0.15
   maxSize: 5
   alphaReduce: 0.01
+  lifetime: 10
 --- !u!122 &122009889002351706
 Halo:
   m_ObjectHideFlags: 1

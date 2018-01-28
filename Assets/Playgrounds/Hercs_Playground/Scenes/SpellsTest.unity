@@ -273,9 +273,41 @@ Prefab:
       propertyPath: m_RootOrder
       value: 6
       objectReference: {fileID: 0}
+    - target: {fileID: 114664810178733488, guid: c9c368d491018e140983a52125757454,
+        type: 2}
+      propertyPath: cooldown
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114611427955238708, guid: c9c368d491018e140983a52125757454,
+        type: 2}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: c9c368d491018e140983a52125757454, type: 2}
   m_IsPrefabParent: 0
+--- !u!1 &437679524 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1240264693431850, guid: c9c368d491018e140983a52125757454,
+    type: 2}
+  m_PrefabInternal: {fileID: 437679523}
+--- !u!114 &437679525
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 437679524}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 37402b201fdb0c848aedf987c2606576, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speed: 1
+  impassibleLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  checkerRadius: 0.05
+  usableMana: 100
 --- !u!1 &739828539
 GameObject:
   m_ObjectHideFlags: 0
