@@ -1,10 +1,13 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.UI;
 using UnityEngine;
 
 public class ManaMan : MonoBehaviour {
+    private int maxMana = 101;
     private int internalMana = 100;
     public int rechargeInterval = 1;
+    public Image manaBar;
 
 
     public void castMe(bool isCasting, System.Action<bool> cb) {
@@ -22,7 +25,10 @@ public class ManaMan : MonoBehaviour {
             }
         ));
         } else {
-            internalMana -= cost;
+            // internalMana -= cost;
+            float fill = internalMana / maxMana;
+            print("fill " + fill);
+            manaBar.fillAmount = internalMana / maxMana;
             print(internalMana);
         }
     }
@@ -47,10 +53,11 @@ public class ManaMan : MonoBehaviour {
             print(internalMana);
             yield return new WaitForSeconds(rechargeInterval);
             internalMana -= 1;
+
+
+            
         }
     }
-
-
 
     // Use this for initialization
     void Start() {
