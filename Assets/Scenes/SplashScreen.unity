@@ -269,6 +269,7 @@ GameObject:
   - component: {fileID: 913740136}
   - component: {fileID: 913740138}
   - component: {fileID: 913740137}
+  - component: {fileID: 913740139}
   m_Layer: 5
   m_Name: SplashText
   m_TagString: Untagged
@@ -306,7 +307,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.88235295, g: 0.8862745, b: 0.88235295, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -333,6 +334,23 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 913740135}
+--- !u!95 &913740139
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 913740135}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 8ac38b72feea93c45898008e2aa2fe2d, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
 --- !u!1 &1612704126
 GameObject:
   m_ObjectHideFlags: 0
@@ -436,7 +454,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 1612704126}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 10c3f1b01be00634297a15311860d1b3, type: 3}
+  m_Script: {fileID: 11500000, guid: 9b0ec6196aada824aa6d9b33fed2fe8e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  txtSpeed: 2

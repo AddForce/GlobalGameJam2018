@@ -9,4 +9,6 @@ public class ButtonBehavior : MonoBehaviour {
     [SerializeField] private int sceneIndex;
 
     public void DoSceneChange() { SceneManager.LoadScene(sceneIndex); }
+
+    public void QuitGame() { Application.Quit(); }
 }
