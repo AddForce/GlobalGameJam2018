@@ -35,9 +35,14 @@ public class SoundManager : MonoBehaviour {
 
 	AudioSource source;
 	Dictionary<string, AudioClip> bgms;
+	string currentBGM = null;
 
 	// Use this for initialization
-	void Awake () {
+	void Start() {
+		if (_instance == null) {
+			_instance = this;
+			DontDestroyOnLoad (this);
+		}
 		source = GetComponent<AudioSource> ();
 		bgms = new Dictionary<string, AudioClip> ();
 
@@ -47,6 +52,10 @@ public class SoundManager : MonoBehaviour {
 	}
 
 	public void playBGM(string key){
+		if (currentBGM == key) {
+			return;
+		}
+
 		AudioClip cl;
 		bgms.TryGetValue (key, out cl);
 		if (cl == null) {
@@ -54,6 +63,7 @@ public class SoundManager : MonoBehaviour {
 		} else {
 			source.clip = cl;
 			source.Play ();
+			currentBGM = key;
 		}
 	}
 
