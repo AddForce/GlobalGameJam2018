@@ -30,7 +30,11 @@ public class SpellSpawn : MonoBehaviour {
     delegate void spellDelegate();
     spellDelegate curSpell;
 
+    //movementscript here to stop the char when casting heal
+    MovementScript move;
+
     void Awake() {
+        move = gameObject.GetComponent<MovementScript>();
         manaManager = gameObject.GetComponent<ManaMan>();
         foreach (Transform child in this.transform) if (child.CompareTag("SpawnPoint")) { spawnPoint = child; }
         curSpell = CheckHeal;
@@ -67,6 +71,7 @@ public class SpellSpawn : MonoBehaviour {
         if (Input.GetKeyDown(KeyCode.Space)) {
             isCasting = true;
             healingSpell.gameObject.GetComponent<Animator>().SetTrigger("WasCalled");
+            move.stopMove();
         }
 
         if (Input.GetKey(KeyCode.Space)) {
@@ -79,6 +84,7 @@ public class SpellSpawn : MonoBehaviour {
             isCasting = false;
             canCast = true;
             healingSpell.gameObject.GetComponent<Animator>().SetBool("StillWorking", false);
+            move.startMove();
         }
     }
 

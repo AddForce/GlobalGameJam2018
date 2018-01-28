@@ -2,7 +2,7 @@
 using System.Collections;
 
 [RequireComponent(typeof(Rigidbody))]
-
+[RequireComponent(typeof (SpellSpawn))]
 public class MovementScript : MonoBehaviour {
     public float smoothTime = 4;
     public float speed = 1.0f;
@@ -18,8 +18,9 @@ public class MovementScript : MonoBehaviour {
     Vector3 newPosition;
 
     public Vector3 velocity = Vector3.zero;
-
     int layerMask;
+
+    private bool canMove = true;
 
     void Awake() {
         layerMask = ~(1 << LayerMask.NameToLayer("layerX"));
@@ -34,8 +35,10 @@ public class MovementScript : MonoBehaviour {
     }
 
     void Update() {
-        clickAndMove();
-        keyboardMove();
+        if (canMove) {
+            clickAndMove();
+            keyboardMove();
+        }
     }
 
     private void keyboardMove() {
@@ -81,27 +84,20 @@ public class MovementScript : MonoBehaviour {
             if (currentLerpTime > lerpTime) {
                 currentLerpTime = lerpTime;
             }
-
-            //float perc = Mathf.Sin((currentLerpTime / lerpTime) * speed);
-            //transform.position = Vector3.Lerp(startPos, newPosition, perc);
-
             transform.position = Vector3.MoveTowards(transform.position, newPosition, Time.deltaTime * speed);
-
             if (Vector3.Distance(transform.position, newPosition) < 0.1f) {
-                print("lerp done");
                 isMoving = false;
             }
         }
     }
 
-    IEnumerator goToPos(Vector3 dest) {
-        while (Vector3.Distance(transform.localPosition, dest) > 0.01f) {
-            transform.localPosition = Vector3.SmoothDamp(transform.localPosition, dest, ref velocity, smoothTime * Time.deltaTime);
-            //PlayerCam.fieldOfView = Mathf.SmoothDamp(PlayerCam.fieldOfView, playerFOV, ref velocityF, smoothTime * Time.deltaTime);
-            yield return null;
-        }
+    public void stopMove() {
+        canMove = false;
     }
 
+    public void startMove() {
+        canMove = true;
+    }
 
     private void Flip(bool facingRight) {
         spriteRend.flipX = facingRight;
