@@ -106,9 +106,10 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4149146943857022}
-  - component: {fileID: 136305155821871168}
   - component: {fileID: 195311333149713142}
   - component: {fileID: 114183831878178482}
+  - component: {fileID: 54193038426922416}
+  - component: {fileID: 136045305449841232}
   m_Layer: 0
   m_Name: Enemy
   m_TagString: Enemy
@@ -218,6 +219,21 @@ Transform:
   m_Father: {fileID: 4149146943857022}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!54 &54193038426922416
+Rigidbody:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1606153502361986}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 0
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!95 &95280607122522768
 Animator:
   serializedVersion: 3
@@ -543,7 +559,7 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
---- !u!136 &136305155821871168
+--- !u!136 &136045305449841232
 CapsuleCollider:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -552,10 +568,10 @@ CapsuleCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  m_Radius: 0.5
-  m_Height: 2
+  m_Radius: 0.7666485
+  m_Height: 3.8241343
   m_Direction: 1
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Center: {x: -0.2666485, y: 0.9120692, z: 0}
 --- !u!195 &195311333149713142
 NavMeshAgent:
   m_ObjectHideFlags: 1

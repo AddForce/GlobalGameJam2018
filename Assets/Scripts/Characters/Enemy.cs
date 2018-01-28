@@ -48,7 +48,7 @@ public class Enemy : MonoBehaviour {
 
 	bool HasEndedMoving(){
 		if (Vector3.Distance (agent.destination, agent.transform.position) <= agent.stoppingDistance) {
-			return !agent.hasPath || agent.velocity.sqrMagnitude == 0f; 
+			return true; 
 		}
 		return false;
 	}
@@ -119,8 +119,19 @@ public class Enemy : MonoBehaviour {
 	}
 
 	void OnFullyHealed(){
-		GameObject exit = GameObject.FindGameObjectWithTag ("ExitPoint");
+		GameObject[] exits = GameObject.FindGameObjectsWithTag ("ExitPoint");
+		GameObject exit = exits [0];
+
+		for (int i = 1; i < exits.Length; ++i) {
+			if (Vector3.Distance (exit.transform.position, transform.position) > Vector3.Distance (exits [i].transform.position, transform.position)) {
+				exit = exits [i];
+			}
+		}
+
 		agent.SetDestination (exit.transform.position);
+		agent.speed *= 10.0f;
+		agent.autoBraking = true;
+		agent.stoppingDistance *= 1.5f;
 		SpriteRenderer rd = anim.gameObject.GetComponent<SpriteRenderer> ();
 		rd.color = Color.green;
 		healed = true;
@@ -134,5 +145,20 @@ public class Enemy : MonoBehaviour {
 		}
 
 		attackTimer = 0f;
+	}
+
+	void OnTriggerEnter(Collider other){
+		if (other.tag == "Spell") {
+			Debug.Log ("Collided with spell");
+			if (other.gameObject.name == "Healing") {
+				Heal (HealBehaviour.healFactor);
+			}
+		}
+	}
+
+	void OnCollisionEnter(Collision other){
+		if (other.gameObject.tag == "Fireball") {
+			DealDamage ((int) FireballBehaviour.maxDamage);
+		}
 	}
 }
