@@ -79,8 +79,10 @@ public class MovementScript : MonoBehaviour {
                 currentLerpTime = lerpTime;
             }
 
-            float perc = Mathf.Sin((currentLerpTime / lerpTime) * speed);
-            transform.position = Vector3.Lerp(startPos, newPosition, perc);
+            //float perc = Mathf.Sin((currentLerpTime / lerpTime) * speed);
+            //transform.position = Vector3.Lerp(startPos, newPosition, perc);
+
+            transform.position = Vector3.MoveTowards(transform.position, newPosition, Time.deltaTime * speed);
 
             if (Vector3.Distance(transform.position, newPosition) < 0.1f) {
                 print("lerp done");
