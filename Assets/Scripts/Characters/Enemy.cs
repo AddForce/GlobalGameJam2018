@@ -20,9 +20,12 @@ public class Enemy : MonoBehaviour {
 	bool healed = false;
 	bool dead = false;
 	float deathTime = 1.5f;
+	Animator anim;
+	bool attacking;
 
 	// Use this for initialization
 	void Start () {
+		anim = GetComponentInChildren<Animator> ();
 		health = maxHealth;
 		infectionLevel = startingInfectionLevel;
 		agent = GetComponent<NavMeshAgent> ();
@@ -52,15 +55,19 @@ public class Enemy : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+		anim.SetFloat ("speed", agent.speed);
+		attacking = false;
 		if (HasEndedMoving ()) {
 			OnTargetArrival ();
 		}
+		anim.SetBool ("attacking", attacking);
 	}
 
 	void OnTargetArrival(){
 		if (healed) {
 			Destroy (gameObject);
 		} else if(targetBase != null){
+			attacking = true;
 			AttackBase ();
 		}
 	}
@@ -91,12 +98,13 @@ public class Enemy : MonoBehaviour {
 	void Die(){
 		dead = true;
 		agent.isStopped = true;
+		anim.SetTrigger ("dead");
 		StartCoroutine (StartDeath ());
 	}
 
 	IEnumerator StartDeath(){
 		Debug.Log ("Started Death");
-		Material mat = GetComponent<MeshRenderer> ().material;
+		SpriteRenderer rd = anim.gameObject.GetComponent<SpriteRenderer> ();
 
 		float t = 1.0f;
 		float timer = 0.0f;
@@ -104,7 +112,7 @@ public class Enemy : MonoBehaviour {
 		while (timer < deathTime) {
 			timer += Time.deltaTime;
 			t = 1.0f - (timer / deathTime);
-			mat.color = new Color (mat.color.r, mat.color.g, mat.color.b, t);
+			rd.color = new Color (rd.color.r,rd.color.g, rd.color.b, t);
 			yield return null;
 		}
 		Destroy (gameObject);
@@ -113,6 +121,8 @@ public class Enemy : MonoBehaviour {
 	void OnFullyHealed(){
 		GameObject exit = GameObject.FindGameObjectWithTag ("ExitPoint");
 		agent.SetDestination (exit.transform.position);
+		SpriteRenderer rd = anim.gameObject.GetComponent<SpriteRenderer> ();
+		rd.color = Color.green;
 		healed = true;
 	}
 
