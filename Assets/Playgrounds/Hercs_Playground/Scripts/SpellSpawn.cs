@@ -50,39 +50,19 @@ public class SpellSpawn : MonoBehaviour {
         } else if (Input.GetKeyDown(KeyCode.Alpha2) && !isCasting) { curSpell = ShootFireball; }
 
         curSpell();
-
-        //    //we pass is Casting which is when you hit the space key;
-        //    //is depleted should be false for us to keep the heal going, other wise itll just do nothing
-        //    manaManager.castMe(isCasting, (isDepleted) => {
-        //        if (isDepleted) {
-        //            print("we have depleted our mana");
-        //        } else {
-        //            CheckHeal();
-        //        }
-        //    });
-        //} else if (curSpell == 1 && canCast) {
-        //    if (Input.GetKeyDown(KeyCode.Space)) {
-        //        manaManager.castMe(canCast, (isDepleted) => {
-        //            ShootFireball();
-        //            Debug.Log(isDepleted.ToString());
-        //        });
-        //    }
-        //}
     }
 
     enum healStage { None, Started, Mid, Ended };
     healStage curHealStage;
 
 
-    private float depletionSpeed = 5;
+    private float depletionSpeed = 3;
     void CheckHeal() {
         if (Input.GetKeyDown(KeyCode.Space)) {
             curHealStage = healStage.Started;
             isCasting = true;
 
-        }
-
-        else if (Input.GetKey(KeyCode.Space)) {
+        } else if (Input.GetKey(KeyCode.Space)) {
             curHealStage = healStage.Mid;
             canCast = false;
         }
@@ -104,8 +84,9 @@ public class SpellSpawn : MonoBehaviour {
                 }, depletionSpeed, ManaMan.spellType.Continous);
                 break;
             case healStage.Mid:
+                //TODO THIS IS WHERE THE ACTUALL HEALING WILL HAPPEN
                 manaManager.castMe((isDepleted) => {
-                    if (!isDepleted) {                        
+                    if (!isDepleted) {
                         healingSpell.gameObject.GetComponent<Animator>().SetBool("StillWorking", true);//could be unnecessary, depending on how it's coded
                     } else {
                         healingSpell.gameObject.GetComponent<Animator>().SetBool("StillWorking", false);
@@ -114,7 +95,6 @@ public class SpellSpawn : MonoBehaviour {
                         if (!move.getMove()) {
                             move.startMove();
                         }
-
                     }
                 }, depletionSpeed, ManaMan.spellType.Continous);
                 break;
@@ -129,18 +109,24 @@ public class SpellSpawn : MonoBehaviour {
         }
     }
 
+    private float manaUsed = 10;
     void ShootFireball() {
         if (canCast && Input.GetKeyDown(KeyCode.Space)) {
             canCast = false;
-            GameObject fireSpawn = Instantiate(fireBall, spawnPoint.position, spawnPoint.rotation) as GameObject;
-            fireSpawn.GetComponent<Rigidbody>().AddForce(spawnPoint.forward * force);
-            fireSpell.gameObject.GetComponent<Animator>().SetTrigger("WasCalled");
-            StartCoroutine(Cooldown());
+            manaManager.castMe((isDepleted) => {
+                if (!isDepleted) {
+                    GameObject fireSpawn = Instantiate(fireBall, spawnPoint.position, spawnPoint.rotation) as GameObject;
+                    fireSpawn.GetComponent<Rigidbody>().AddForce(spawnPoint.forward * force);
+                    fireSpell.gameObject.GetComponent<Animator>().SetTrigger("WasCalled");
+                    StartCoroutine(Cooldown());
+                }
+            }, manaUsed, ManaMan.spellType.OneShot);
         }
     }
 
     IEnumerator Cooldown() {
         yield return new WaitForSeconds(cooldown);
+        manaManager.setManaToRegen();
         canCast = true;
     }
 }
