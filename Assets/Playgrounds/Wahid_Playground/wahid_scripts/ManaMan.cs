@@ -3,14 +3,10 @@ using System.Collections.Generic;
 using UnityEngine.UI;
 using UnityEngine;
 
-[RequireComponent(typeof (Image))]
+[RequireComponent(typeof(Image))]
 public class ManaMan : MonoBehaviour {
     private float maxMana = 101;
     private float curMana = 100;
-    public float decreaseByThisEverySec = 1;
-
-    public float rechargeInterval = 1;
-    public float depleteInterval = 1;
 
     public Image manaBar;
     bool isDepleted = false;
@@ -18,55 +14,44 @@ public class ManaMan : MonoBehaviour {
     float changePerSecond; // modify the total, every second
     public float timeToChange = 15; // the total time myValue will take to go from max to min
 
-    public void castMe(System.Action<bool> cb) {
- 
+    private float depletionSpeed;
+
+    private spellType castType;
+
+    public enum spellType { None, Continous, OneShot };
+
+    public void castMe(System.Action<bool> cb, float m_dSpeed, spellType m_type) {
+        castType = m_type;
+        depletionSpeed = m_dSpeed;
+        cb(isDepleted);
+        if (castType == spellType.Continous) {
+            deplete(depletionSpeed);
+        } else if (castType == spellType.OneShot) {
+
+        }
     }
 
     void Awake() {
+        castType = spellType.None;
         changePerSecond = (0 - maxMana) / timeToChange;
     }
 
-    void FixedUpdate() {
-        deplete();
-        print(curMana);
-    }
-
-    private void deplete() {//for the cast mana method
-        if (curMana >= 0) {
-            curMana = Mathf.Clamp(curMana + changePerSecond * Time.deltaTime, 0, maxMana);
+    private void deplete(float depletionSpeed) {//for the cast mana method
+        if (!Mathf.Approximately(curMana, 0)) {
+            curMana = Mathf.Clamp(curMana + changePerSecond * Time.deltaTime * depletionSpeed, 0, maxMana);
             manaBar.fillAmount = curMana / maxMana;
-        }
-
-    }
-
-    public void castSpell(int cost) {
-        if (cost > curMana) {
-            StartCoroutine(reCharge(cost, () => {
-                curMana -= cost;
-            }
-        ));
         } else {
-            float fill = curMana / maxMana;
-            print("fill " + fill);
-            manaBar.fillAmount = curMana / maxMana;
-            print(curMana);
+            isDepleted = true;
+            print("depleted");
         }
     }
-
-    private IEnumerator reCharge(int cost, System.Action cb) {
-        Debug.Log("Waiting for mana to refill...");
-        StartCoroutine(refill());
-        yield return new WaitUntil(() => curMana > cost);
-        Debug.Log("Now you can use");
-        cb();
-    }
-
-    private IEnumerator refill() {
-        while (curMana <= 100) {
-            yield return new WaitForSeconds(rechargeInterval);
-            curMana += 1;
-        }
-    }
+    //private IEnumerator reCharge(int cost, System.Action cb) {
+    //    Debug.Log("Waiting for mana to refill...");
+    //    StartCoroutine(refill());
+    //    yield return new WaitUntil(() => curMana > cost);
+    //    Debug.Log("Now you can use");
+    //    cb();
+    //}
 
     //private IEnumerator deplete() {
     //    if (curMana >= 0) {
@@ -75,12 +60,4 @@ public class ManaMan : MonoBehaviour {
     //        print(curMana);
     //    }
     //}
-
-    // Use this for initialization
-    void Start() {
-
-
-    }
-
-
 }

@@ -98,6 +98,9 @@ public class MovementScript : MonoBehaviour {
         canMove = true;
     }
 
+    public bool getMove() {
+        return canMove;
+    }
     private void Flip(bool facingRight) {
         spriteRend.flipX = facingRight;
     }
