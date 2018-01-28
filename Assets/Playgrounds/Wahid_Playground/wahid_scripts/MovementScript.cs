@@ -20,7 +20,7 @@ public class MovementScript : MonoBehaviour {
     public Vector3 velocity = Vector3.zero;
 
     void Awake() {
-        spriteRend = GetComponent<SpriteRenderer>();
+        spriteRend = GetComponentInChildren<SpriteRenderer>();
         newPosition = transform.position;
         mana = GetComponent<ManaMan>();
         rb = GetComponent<Rigidbody>();
