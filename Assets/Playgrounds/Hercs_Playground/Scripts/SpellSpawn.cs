@@ -102,7 +102,7 @@ public class SpellSpawn : MonoBehaviour {
 
         canCast = false;
         GameObject fireSpawn = Instantiate(fireBall, spawnPoint.position, spawnPoint.rotation) as GameObject;
-        fireSpawn.GetComponent<Rigidbody>().AddForce(this.gameObject.transform.forward * force);
+        fireSpawn.GetComponent<Rigidbody>().AddForce(spawnPoint.forward * force);
         spells[curSpell].gameObject.GetComponent<Animator>().SetTrigger("WasCalled");
         StartCoroutine(Cooldown());
     }
