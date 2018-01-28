@@ -8,6 +8,7 @@ TagManager:
   - Ground
   - Spell
   - Enemy
+  - ExitPoint
   layers:
   - Default
   - TransparentFX
