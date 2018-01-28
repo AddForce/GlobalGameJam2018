@@ -765,8 +765,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cb16b4d00b934584183804567aed2a02, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rechargeInterval: 1
   manaBar: {fileID: 0}
+  timeToChange: 15
 --- !u!114 &114664810178733488
 MonoBehaviour:
   m_ObjectHideFlags: 1
